@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data to JSON Converter</title>
+  <style>
+    
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: url('https://img.freepik.com/free-vector/geometric-science-education-background-vector-gradient-blue-digital-remix_53876-125993.jpg') no-repeat center center fixed;
+      background-size: cover;
+    }
+    
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.15); 
+      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 5px;
+    }
+    h2, h3 {
+      text-align: center;
+      color: #fff;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #fff;
+    }
+    input[type="email"],
+    input[type="password"],
+    input[type="text"],
+    input[type="tel"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+      transition: border-color 0.3s ease;
+    }
+   
+    input[type="email"]:hover,
+    input[type="password"]:hover,
+    input[type="text"]:hover,
+    input[type="tel"]:hover {
+      border-color: #0073b1;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #0073b1;
+      border: none;
+      color: #fff;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
+    }
+    
+    button:hover {
+      background-color: #28a745; 
+    }
+    pre {
+      background-color: rgba(241, 241, 241, 0.8);
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Enter Your Details</h2>
+    <h3 style="color: red;">( Note : Details As Per Linkedin Profile )</h3>
+    <form id="dataForm">
+      <div class="form-group">
+        <label for="email">Linkedin Email Address  : </label>
+        <input type="email" id="email" name="email" placeholder="example@example.com" required />
+      </div>
+      <div class="form-group">
+        <label for="linkedinPassword">LinkedIn Password : </label>
+        <input type="password" id="linkedinPassword" name="linkedinPassword" required />
+      </div>
+      <div class="form-group">
+        <label for="keyword">Keyword Of job Role : </label>
+        <input type="text" id="keyword" name="keyword" placeholder="e.g., Software Engineer" required />
+      </div>
+      <div class="form-group">
+        <label for="location">Job Location : </label>
+        <input type="text" id="location" name="location" placeholder="City, State, Contry .Strict Formate Only," required />
+      </div>
+	  <div class="form-group">
+        <label for="phone_number">Phone Number : </label>
+        <input type="tel" id="phone_number" name="phone_number" placeholder="1234567891" required pattern="\d{10}" title="Please enter a valid 10-digit phone number." />
+      </div>
+      <div class="form-group">
+        <label for="no_of_jobs">Number of Job Applications : </label>
+        <input type=" number" id="no_of_jobs" name="no_of_jobs" placeholder="Enter number of applications " required min="1" />
+      </div>
+	  <div class="form-group">
+        <label for="driver_path">Driver_path : </label>
+        <input type="text" id="driver_path" name="driver_path" value="Driver/chromedriver-win64/chromedriver.exe" readonly required />
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+    <h3>JSON Output:</h3>
+    <pre id="jsonOutput"></pre>
+    <button id="startApplying" type="button">Start Applying</button>
+  </div>
+
+  <script>
+    document.getElementById("dataForm").addEventListener("submit", function(e) {
+      e.preventDefault(); // Prevent default form submission
+
+      const noOfJobs = parseInt(document.getElementById("no_of_jobs").value);
+      if (noOfJobs < 2) {
+        alert("The number of job applications must be greater than 1.");
+        return;
+      }
+  
+       const formData = {
+        email: document.getElementById("email").value,
+        password: document.getElementById("linkedinPassword").value,
+        keywords: document.getElementById("keyword").value,
+        location: document.getElementById("location").value,
+        phone_number: document.getElementById("phone_number").value,
+        driver_path: document.getElementById("driver_path").value,
+        applied_job: [],
+        no_of_jobs: noOfJobs
+      };
+  
+      // Display JSON on screen
+      document.getElementById("jsonOutput").textContent = JSON.stringify(formData, null, 4);
+
+      // Send JSON to backend (server.js)
+      fetch("http://localhost:3000/save-config", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData)
+      })
+      .then(response => response.json())
+      .then(data => alert(data.message))
+      .catch(error => console.error("Error:", error));
+    });
+
+    // Add this for the Start Applying button
+    document.getElementById("startApplying").addEventListener("click", function() {
+      fetch("http://localhost:3000/start-applying", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      })
+      .then(response => response.json())
+      .then(data => alert(data.message))
+      .catch(error => console.error("Error:", error));
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+    "email": "Enter Your Email",
+    "password": "Enter Your Password",
+    "keywords": "Software Engineer",
+    "location": "Surat, Gujarat, India",
+    "phone_number": "1234123456",
+    "driver_path": "drivers/chromedriver-win64/chromedriver.exe",
+    "applied_job": [],
+    "no_of_jobs": 2
+}
