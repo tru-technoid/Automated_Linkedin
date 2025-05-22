@@ -1,0 +1,34 @@
+{
+  "email": yourmail@gmail.com",
+  "password": "password",
+  "phone_number": "1234567890",
+  "applied_job": [],
+  "no_of_jobs": 2,
+  "disableAntiLock": true,
+  "experienceLevel": {
+    "internship": true,
+    "entry": true,
+    "associate": false,
+    "mid-senior level": false,
+    "director": false,
+    "executive": false
+  },
+  "jobTypes": {
+    "full-time": true,
+    "contract": false,
+    "part-time": true,
+    "temporary": true,
+    "internship": true,
+    "other": true,
+    "volunteer": false
+  },
+  "date": {
+    "all time": true,
+    "month": false,
+    "week": false,
+    "24 hours": false
+  },
+  "positions": "Software Developer",
+  "locations": "Surat, Gujarat, India",
+  "outputFileDirectory": "E:/TRUSHAR/Sem_8_Final/Output_Files/"
+}

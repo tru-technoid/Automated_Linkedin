@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Automated Job Application System</title>
+    <style>
+        /* Styles same as before */
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            background: #1c1c1e;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        label:hover {
+            color: #00c6ff;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="number"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            margin-top: 8px;
+            font-size: 1em;
+        }
+
+        .toggle {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+            margin-right: 10px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        .toggle-switch input:checked+.slider {
+            background-color: #00c6ff;
+        }
+
+        .toggle-switch input:checked+.slider:before {
+            transform: translateX(26px);
+        }
+
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .checkbox-group input[type="checkbox"],
+        input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        .section {
+            margin-top: 30px;
+        }
+
+        .box {
+            border: 1px solid #fff;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        button {
+            background: #00c6ff;
+            background: linear-gradient(to right, #0072ff, #00c6ff);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 30px;
+            display: block;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+            transform: scale(1.03);
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .password-container input[type="password"],
+        .password-container input[type="text"] {
+            width: 100%;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        #outputLog {
+            background-color: #111;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            height: 200px;
+            overflow-y: auto;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>Automated Job Application System For Linkedin</nav>
+    <div class="container">
+        <h1>Job Config Generator</h1>
+        <form id="configForm">
+            <label>Email</label>
+            <input type="email" name="email" placeholder="Enter Your Email Address" required />
+
+            <label>Password</label>
+            <div class="password-container">
+                <input type="password" name="password" id="passwordField" placeholder="Enter Your Password" required />
+                <button type="button" class="toggle-password" onclick="togglePassword()">👁</button>
+            </div>
+
+            <label>Phone Number</label>
+            <input type="text" name="phone_number" pattern="\d{10}" title="Enter a 10-digit phone number"
+                placeholder="Enter a 10-digit phone number" required />
+
+            <label>No of Jobs To Apply :</label>
+            <input type="number" name="no_of_jobs" required />
+
+            <div class="toggle">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="disableAntiLock" name="disableAntiLock" />
+                    <span class="slider"></span>
+                </label>
+                <label for="disableAntiLock">Click For Sort By Most Recent Jobs</label>
+            </div>
+
+            <div class="section">
+                <label>Experience Level : </label>
+                <div class="checkbox-group box">
+                    <label><input type="checkbox" name="experienceLevel.internship" /> Internship</label>
+                    <label><input type="checkbox" name="experienceLevel.entry" /> Entry</label>
+                    <label><input type="checkbox" name="experienceLevel.associate" /> Associate</label>
+                    <label><input type="checkbox" name="experienceLevel.mid-senior level" /> Mid-Senior Level</label>
+                    <label><input type="checkbox" name="experienceLevel.director" /> Director</label>
+                    <label><input type="checkbox" name="experienceLevel.executive" /> Executive</label>
+                </div>
+            </div>
+
+            <div class="section">
+                <label>Job Types :</label>
+                <div class="checkbox-group box">
+                    <label><input type="checkbox" name="jobTypes.full-time" /> Full-Time</label>
+                    <label><input type="checkbox" name="jobTypes.contract" /> Contract</label>
+                    <label><input type="checkbox" name="jobTypes.part-time" /> Part-Time</label>
+                    <label><input type="checkbox" name="jobTypes.temporary" /> Temporary</label>
+                    <label><input type="checkbox" name="jobTypes.internship" /> Internship</label>
+                    <label><input type="checkbox" name="jobTypes.other" /> Other</label>
+                    <label><input type="checkbox" name="jobTypes.volunteer" /> Volunteer</label>
+                </div>
+            </div>
+
+            <div class="section">
+                <label>Date Filter:</label>
+                <div class="checkbox-group">
+                    <label><input type="radio" name="date" value="all time" required>All Time</label>
+                    <label><input type="radio" name="date" value="month">Last Month</label>
+                    <label><input type="radio" name="date" value="week">Last Week</label>
+                    <label><input type="radio" name="date" value="24 hours">Last 24 Hours</label>
+                </div>
+            </div>
+
+            <label>Position</label>
+            <input type="text" name="positions" placeholder="Enter Job Role" />
+
+            <label>Location (Eg. City, State, Country) : </label>
+            <input type="text" name="locations" placeholder="Enter Job Location" />
+
+            <label>Output File Directory (Eg. E:/TRUSHAR/Sem_8_Final/Output_Files/) </label>
+            <input type="text" name="outputFileDirectory"
+                placeholder="Enter File Path For Save Applied Log Data" />
+
+            <button type="submit">Generate JSON</button>
+        </form>
+        <button onclick="runPythonScript()">Start Automation (Run main.py)</button>
+        <div id="outputLog">Logs will appear here...</div>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const passField = document.getElementById("passwordField");
+            passField.type = passField.type === "password" ? "text" : "password";
+        }
+
+        document.getElementById('configForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const selectedDate = formData.get('date');
+            const config = {
+                email: formData.get('email'),
+                password: formData.get('password'),
+                phone_number: formData.get('phone_number'),
+                applied_job: [],
+                no_of_jobs: parseInt(formData.get('no_of_jobs')),
+                disableAntiLock: formData.get('disableAntiLock') !== null,
+                experienceLevel: {
+                    'internship': !!formData.get('experienceLevel.internship'),
+                    'entry': !!formData.get('experienceLevel.entry'),
+                    'associate': !!formData.get('experienceLevel.associate'),
+                    'mid-senior level': !!formData.get('experienceLevel.mid-senior level'),
+                    'director': !!formData.get('experienceLevel.director'),
+                    'executive': !!formData.get('experienceLevel.executive')
+                },
+                jobTypes: {
+                    'full-time': !!formData.get('jobTypes.full-time'),
+                    'contract': !!formData.get('jobTypes.contract'),
+                    'part-time': !!formData.get('jobTypes.part-time'),
+                    'temporary': !!formData.get('jobTypes.temporary'),
+                    'internship': !!formData.get('jobTypes.internship'),
+                    'other': !!formData.get('jobTypes.other'),
+                    'volunteer': !!formData.get('jobTypes.volunteer')
+                },
+                date: {
+                'all time': selectedDate === 'all time',
+                'month': selectedDate === 'month',
+                'week': selectedDate === 'week',
+                '24 hours': selectedDate === '24 hours'
+                },
+                positions: formData.get('positions'),
+                locations: formData.get('locations'),
+                outputFileDirectory: formData.get('outputFileDirectory'),
+                
+            };
+
+            fetch("http://localhost:3000/save-config", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(config)
+              })
+              .then(response => response.json())
+              .then(data => alert(data.message))
+              .catch(error => console.error("Error:", error));
+            });
+        
+            function runPythonScript() {
+                const outputLog = document.getElementById("outputLog");
+                outputLog.textContent = "Running script...";
+            
+                fetch("http://localhost:3000/start-applying", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                })
+                .then(response => response.json())
+                .then(data => {
+                  outputLog.textContent += "\n" + data.message;
+                  alert(data.message);
+                })
+                .catch(error => {
+                  outputLog.textContent += "\nError running script: " + error.message;
+                });
+              }
+    </script>
+
+</body>
+
+</html>
