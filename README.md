@@ -1,4 +1,4 @@
-# 🔗 Automated Job Application System for LinkedIn Using RPA
+# 🔗 Automated Job Application System Using RPA
 
 ## 📌 Project Overview
 
@@ -20,7 +20,6 @@ This project is an **Automated Job Application System** built using **Python and
 - 🔐 Auto Login using secure credentials.
 - 🔍 Job Search based on keywords and location.
 - ✅ Easy Apply filter for relevant job postings.
-- 📄 Auto Resume Upload and Form Fill-up.
 - 🔁 Page Navigation and Multi-page Job Parsing.
 - 📊 Logs applied jobs and skips incomplete forms.
 
